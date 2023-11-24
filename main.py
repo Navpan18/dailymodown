@@ -1,8 +1,6 @@
-from typing import Union
-
 from fastapi import FastAPI
 
-import youtube_dl
+import yt_dlp
 app = FastAPI()
 
 
@@ -18,7 +16,7 @@ async def read_item(reqUrl: str = 'https://www.dailymotion.com/video/x8pdo3p', v
         'quiet': True,  
         'format': desired_format,  
     }
-    ydl = youtube_dl.YoutubeDL(ydl_opts)
+    ydl = yt_dlp.YoutubeDL(ydl_opts)
     info_dict = ydl.extract_info(video_url, download=False)
     format_url = info_dict.get('url')
     if format_url:
