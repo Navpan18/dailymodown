@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-import yt_dlp
+import youtube_dl
 app = FastAPI()
 
 
@@ -8,7 +8,7 @@ app = FastAPI()
 async def root():
     return {"message": "Hello World"}
 @app.get("/dailymo/")
-async def read_item(reqUrl: str = 'https://www.dailymotion.com/video/x8pdo3p', vidFormat: str='http-720-0'):
+async def read_item(reqUrl: str = 'https://www.dailymotion.com/video/x8pywti', vidFormat: str='http-720-0'):
     
     video_url = reqUrl
     desired_format = vidFormat
@@ -16,7 +16,7 @@ async def read_item(reqUrl: str = 'https://www.dailymotion.com/video/x8pdo3p', v
         'quiet': True,  
         'format': desired_format,  
     }
-    ydl = yt_dlp.YoutubeDL(ydl_opts)
+    ydl = youtube_dl.YoutubeDL(ydl_opts)
     info_dict = ydl.extract_info(video_url, download=False)
     format_url = info_dict.get('url')
     if format_url:
