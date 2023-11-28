@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 
-import youtube_dl
+import yt_dlp
 app = FastAPI()
 def get_video_formats(video_url):
     formats_list = []
     
-    with youtube_dl.YoutubeDL() as ydl:
+    with yt_dlp.YoutubeDL() as ydl:
         info_dict = ydl.extract_info(video_url, download=False)
         for format in info_dict.get('formats', []):
             format_info = {
@@ -29,7 +29,7 @@ async def read_item(reqUrl: str = 'https://www.dailymotion.com/video/x8pywti', v
         'quiet': True,  
         'format': desired_format,  
     }
-    ydl = youtube_dl.YoutubeDL(ydl_opts)
+    ydl = yt_dlp.YoutubeDL(ydl_opts)
     info_dict = ydl.extract_info(video_url, download=False)
     format_url = info_dict.get('url')
     if format_url:
