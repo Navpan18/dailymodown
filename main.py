@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 import requests
-import youtube_dl
+import yt_dlp
 
 app = FastAPI()
 
@@ -10,7 +10,7 @@ render_api_url = "https://api.render.com/deploy/srv-clippr4m411s73dst3l0?key=A7n
 def get_video_formats(video_url):
     formats_list = []
 
-    with youtube_dl.YoutubeDL() as ydl:
+    with yt_dlp.YoutubeDL() as ydl:
         info_dict = ydl.extract_info(video_url, download=False)
         for format in info_dict.get('formats', []):
             format_info = {
@@ -41,7 +41,7 @@ async def read_item(reqUrl: str = 'https://www.dailymotion.com/video/x8pywti', v
         'quiet': True,
         'format': desired_format,
     }
-    ydl = youtube_dl.YoutubeDL(ydl_opts)
+    ydl = yt_dlp.YoutubeDL(ydl_opts)
     try:
         info_dict = ydl.extract_info(video_url, download=False)
         format_url = info_dict.get('url')
@@ -49,7 +49,7 @@ async def read_item(reqUrl: str = 'https://www.dailymotion.com/video/x8pywti', v
             return {"url": format_url, "reqUrl": reqUrl, "vidFormat": vidFormat}
         else:
             return {"url": "Not found", "reqUrl": reqUrl, "vidFormat": vidFormat}
-    except youtube_dl.utils.DownloadError as e:
+    except yt_dlp.utils.DownloadError as e:
         # Check if the exception message contains "HTTP Error 401"
         if "HTTP Error 401" in str(e):
             return handle_401_error()
@@ -62,7 +62,7 @@ async def read_item(videourl: str = 'https://www.dailymotion.com/video/x8pywti')
     try:
         available_formats = get_video_formats(videourl)
         return {"video_url": videourl, "formats": available_formats}
-    except youtube_dl.utils.DownloadError as e:
+    except yt_dlp.utils.DownloadError as e:
         # Check if the exception message contains "HTTP Error 401"
         if "HTTP Error 401" in str(e):
             return handle_401_error()
