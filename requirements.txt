@@ -1,4 +1,4 @@
 fastapi
 uvicorn
-youtube_dl
+yt_dlp
 requests
