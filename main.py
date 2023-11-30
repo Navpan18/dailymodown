@@ -4,8 +4,7 @@ import yt_dlp
 
 app = FastAPI()
 
-# Define the Render API URL and key
-render_api_url = "https://api.render.com/deploy/srv-clippr4m411s73dst3l0?key=A7nj2iGIU2c"
+
 
 def get_video_formats(video_url):
     formats_list = []
@@ -25,7 +24,7 @@ def get_video_formats(video_url):
 def handle_401_error():
     # Make a request to the Render API when a 401 error occurs
     print("\n\n\n\n401 krta h be \n\n\n\n")
-    response = requests.get(render_api_url)
+    
     # You can handle the response as needed
     return {"error": f"Received 401 error. Render API response: {response.text}"}
 
